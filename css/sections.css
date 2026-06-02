@@ -1,0 +1,413 @@
+/* ===== HERO ===== */
+.hero{
+  position:relative;
+  min-height:100vh;
+  display:flex; align-items:center;
+  padding:calc(var(--nav-h) + 40px) 0 80px;
+  background:var(--color-bg);
+  color:var(--color-text);
+  overflow:hidden;
+  isolation:isolate;
+}
+
+/* === 背景: カラフルブロブ === */
+.hero__blob{
+  position:absolute;
+  border-radius:50%;
+  filter:blur(60px);
+  opacity:.55;
+  z-index:0;
+  pointer-events:none;
+  animation:blobFloat 14s ease-in-out infinite;
+}
+.hero__blob--blue   { width:50vw; height:50vw; background:var(--color-pop-sky);   top:-12vw; left:-10vw; animation-delay:0s }
+.hero__blob--yellow { width:42vw; height:42vw; background:var(--color-highlight); top:-8vw;  right:-12vw; animation-delay:-3s }
+.hero__blob--pink   { width:40vw; height:40vw; background:var(--color-pop-pink-soft);  bottom:-14vw; left:30vw;  animation-delay:-6s; opacity:.7 }
+.hero__blob--green  { width:34vw; height:34vw; background:var(--color-pop-green-soft); bottom:5vw;  right:5vw;  animation-delay:-9s; opacity:.7 }
+@keyframes blobFloat{
+  0%,100%{ transform:translate(0,0) scale(1) }
+  33%    { transform:translate(20px,-30px) scale(1.06) }
+  66%    { transform:translate(-25px,15px) scale(.94) }
+}
+
+/* === 背景: ドット模様 === */
+.hero__dots{
+  position:absolute; inset:0;
+  background-image:radial-gradient(rgba(15,23,42,.10) 1.2px, transparent 1.2px);
+  background-size:24px 24px;
+  z-index:0;
+  pointer-events:none;
+  opacity:.55;
+  mask-image:radial-gradient(ellipse at center, #000 30%, transparent 80%);
+  -webkit-mask-image:radial-gradient(ellipse at center, #000 30%, transparent 80%);
+}
+
+/* === 背景: 大きな数字 === */
+.hero__bg-num{
+  position:absolute;
+  font-family:var(--font-num);
+  font-size:clamp(18rem, 42vw, 50rem);
+  line-height:.85;
+  color:transparent;
+  -webkit-text-stroke:2.5px rgba(30,58,138,.10);
+  text-stroke:2.5px rgba(30,58,138,.10);
+  user-select:none; pointer-events:none;
+  z-index:0;
+}
+.hero__bg-num--9{ top:8vw; right:-3vw; transform:rotate(-8deg); -webkit-text-stroke-color:rgba(236,72,153,.16) }
+.hero__bg-num--4{ bottom:-10vw; left:-5vw; transform:rotate(6deg); -webkit-text-stroke-color:rgba(245,158,11,.20) }
+
+/* === コミック放射線（中央背景） === */
+.hero__radial{
+  position:absolute;
+  top:50%; left:50%;
+  transform:translate(-50%,-50%);
+  width:120vmin; height:120vmin;
+  background:
+    repeating-conic-gradient(
+      from 0deg at 50% 50%,
+      rgba(245,158,11,.10) 0deg 2.5deg,
+      transparent 2.5deg 12deg
+    );
+  z-index:0;
+  pointer-events:none;
+  opacity:.55;
+  animation:radialSpin 80s linear infinite;
+}
+@keyframes radialSpin{ to{ transform:translate(-50%,-50%) rotate(360deg) } }
+
+/* === シャトル軌跡 === */
+.hero__shuttle{
+  position:absolute;
+  top:14%; left:-8%;
+  width:55vw; max-width:900px;
+  z-index:1;
+  opacity:.85;
+  pointer-events:none;
+}
+
+/* === メインインナー === */
+.hero__inner{
+  position:relative; z-index:2;
+  width:var(--container);
+  margin-inline:auto;
+  display:grid;
+  grid-template-columns:1fr;
+  gap:48px;
+  align-items:center;
+}
+@media (min-width:1024px){
+  .hero__inner{ grid-template-columns:1.05fr 1fr; gap:40px }
+}
+
+/* === 左カラム: コピー === */
+.hero__content{
+  position:relative;
+  display:flex; flex-direction:column;
+  gap:22px;
+}
+.hero__eyebrow{
+  display:inline-flex; align-items:center; gap:14px;
+  font-family:var(--font-en-display);
+  letter-spacing:.32em;
+  font-size:clamp(.9rem, 1.3vw, 1.1rem);
+  color:var(--color-pop-pink);
+  font-weight:400;
+}
+.hero__eyebrow::before{
+  content:''; width:46px; height:3px; background:var(--color-pop-pink); border-radius:3px;
+}
+.hero__eyebrow-star{
+  display:inline-block;
+  color:var(--color-accent);
+  font-size:1.4em;
+  animation:starSpin 6s linear infinite;
+}
+@keyframes starSpin{ to{ transform:rotate(360deg) } }
+
+/* タイトル: コミック調 */
+.hero__title{
+  font-family:var(--font-jp-display);
+  font-weight:900;
+  font-size:clamp(2.6rem, 7.5vw, 6rem);
+  line-height:1.0;
+  letter-spacing:-.02em;
+  color:var(--color-primary-deep);
+}
+.hero__title-line{
+  display:block;
+  overflow:hidden;
+  padding-block:.04em;
+}
+.hero__title-line + .hero__title-line{ margin-top:.05em }
+.hero__title-inner{ display:inline-block }
+
+/* 「笑利」のコミック処理 */
+.hero__title-pow{
+  display:inline-block;
+  position:relative;
+  font-size:1.25em;
+  padding:0 .15em;
+  color:var(--color-highlight);
+  -webkit-text-stroke:6px var(--color-primary-deep);
+  text-stroke:6px var(--color-primary-deep);
+  paint-order:stroke fill;
+  text-shadow:6px 6px 0 var(--color-pop-pink);
+  transform:rotate(-3deg);
+  filter:drop-shadow(0 6px 0 rgba(0,0,0,.08));
+}
+/* 「なし。」が斜めに */
+.hero__title-tilt{
+  display:inline-block;
+  transform:rotate(4deg);
+  color:var(--color-pop-pink);
+}
+
+.hero__sub{
+  font-size:clamp(1rem, 1.35vw, 1.18rem);
+  font-weight:700;
+  line-height:1.8;
+  color:var(--color-text);
+  max-width:540px;
+}
+.hero__sub-tag{
+  display:inline-block;
+  background:var(--color-primary-deep);
+  color:#fff;
+  padding:4px 14px;
+  border-radius:var(--radius-full);
+  font-size:.85em;
+  margin-top:10px;
+  font-weight:700;
+  letter-spacing:.02em;
+}
+
+.hero__ctas{
+  display:flex; flex-wrap:wrap; gap:16px;
+  margin-top:6px;
+}
+
+/* メータ */
+.hero__meta{
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:14px;
+  margin-top:14px;
+}
+.hero__meta-item{
+  background:var(--color-bg-paper);
+  border:3px solid var(--color-primary-deep);
+  border-radius:var(--radius-md);
+  padding:14px 12px;
+  box-shadow:4px 4px 0 var(--color-primary-deep);
+  text-align:center;
+  position:relative;
+  transition:transform .25s var(--ease-out);
+}
+.hero__meta-item:hover{ transform:translate(-2px,-2px); box-shadow:6px 6px 0 var(--color-primary-deep) }
+.hero__meta-item:nth-child(1){ background:var(--color-pop-pink-soft) }
+.hero__meta-item:nth-child(2){ background:var(--color-pop-green-soft) }
+.hero__meta-item:nth-child(3){ background:#FEF3C7 }
+.hero__meta-num{
+  font-family:var(--font-num);
+  font-size:clamp(1.6rem, 2.6vw, 2.2rem);
+  color:var(--color-primary-deep);
+  line-height:1;
+}
+.hero__meta-num small{ font-size:.55em; margin-left:2px }
+.hero__meta-label{
+  font-size:.72rem;
+  font-weight:700;
+  color:var(--color-text);
+  margin-top:6px;
+  letter-spacing:.04em;
+  line-height:1.4;
+}
+
+/* === 右カラム: コラージュ === */
+.hero__collage{
+  position:relative;
+  aspect-ratio:1/1.05;
+  max-width:680px;
+  margin-inline:auto;
+  width:100%;
+}
+
+.hero__photo{
+  position:absolute;
+  border-radius:var(--radius-md);
+  overflow:hidden;
+  box-shadow:6px 6px 0 var(--color-primary-deep), 0 12px 30px -8px rgba(0,0,0,.25);
+  background:#fff;
+  border:4px solid #fff;
+  transition:transform .35s var(--ease-out);
+}
+.hero__photo img{
+  width:100%; height:100%; object-fit:cover; display:block;
+}
+.hero__photo:hover{ transform:scale(1.04) rotate(0deg)!important; z-index:10 }
+
+/* 各写真の配置 (paper collage感) */
+.hero__photo--main{
+  /* メイン: 中央やや右の大きいスマッシュ写真 */
+  top:8%; right:0; width:65%; aspect-ratio:3/4;
+  transform:rotate(2deg);
+  z-index:3;
+  border-color:#fff;
+}
+.hero__photo--main img{ object-position:center }
+
+.hero__photo--top{
+  /* 左上: 賞状集合 */
+  top:0; left:0; width:42%; aspect-ratio:1/1;
+  transform:rotate(-7deg);
+  z-index:2;
+  border-color:var(--color-pop-pink);
+}
+.hero__photo--mid{
+  /* 中段左: 円陣 */
+  top:36%; left:-2%; width:38%; aspect-ratio:1/1;
+  transform:rotate(5deg);
+  z-index:4;
+  border-color:var(--color-pop-sky);
+}
+.hero__photo--bottom{
+  /* 左下: ピース笑顔 */
+  bottom:2%; left:14%; width:42%; aspect-ratio:5/4;
+  transform:rotate(-4deg);
+  z-index:5;
+  border-color:var(--color-pop-green);
+}
+.hero__photo--corner{
+  /* 右下: ジャンプ */
+  bottom:4%; right:-3%; width:36%; aspect-ratio:1/1;
+  transform:rotate(6deg);
+  z-index:3;
+  border-color:var(--color-accent);
+}
+
+/* === 吹き出し === */
+.hero__bubble{
+  position:absolute;
+  z-index:6;
+  font-family:var(--font-jp-display);
+  font-weight:900;
+  background:var(--color-highlight);
+  color:var(--color-primary-deep);
+  border:3.5px solid var(--color-primary-deep);
+  padding:14px 18px;
+  border-radius:50%;
+  width:clamp(96px, 12vw, 130px);
+  aspect-ratio:1/1;
+  display:flex; align-items:center; justify-content:center;
+  text-align:center;
+  line-height:1.25;
+  font-size:clamp(.85rem, 1.2vw, 1.05rem);
+  box-shadow:5px 5px 0 var(--color-primary-deep);
+  animation:bubblePop 3.6s ease-in-out infinite;
+}
+.hero__bubble--top{
+  top:-3%; left:-2%;
+  background:var(--color-highlight);
+  transform:rotate(-12deg);
+  animation-delay:0s;
+}
+.hero__bubble--right{
+  top:32%; right:-6%;
+  background:var(--color-pop-pink);
+  color:#fff;
+  transform:rotate(8deg);
+  animation-delay:-1.2s;
+  font-size:clamp(.78rem, 1vw, .95rem);
+}
+.hero__bubble--bottom{
+  bottom:-2%; right:18%;
+  background:var(--color-pop-green);
+  color:#fff;
+  transform:rotate(-6deg);
+  animation-delay:-2.4s;
+  font-size:clamp(.78rem, 1vw, .95rem);
+}
+@keyframes bubblePop{
+  0%,100%{ transform:rotate(var(--r,-12deg)) translateY(0) scale(1) }
+  50%{ transform:rotate(var(--r,-8deg)) translateY(-6px) scale(1.04) }
+}
+.hero__bubble--top{ --r:-12deg }
+.hero__bubble--right{ --r:8deg }
+.hero__bubble--bottom{ --r:-6deg }
+
+/* 装飾: 星 */
+.hero__star{
+  position:absolute;
+  color:var(--color-accent);
+  font-size:clamp(1.6rem, 2.5vw, 2.4rem);
+  z-index:6;
+  pointer-events:none;
+  animation:starTwinkle 2.2s ease-in-out infinite;
+}
+.hero__star--1{ top:6%; right:35%; color:var(--color-pop-pink); animation-delay:0s }
+.hero__star--2{ top:48%; left:42%; color:var(--color-accent); animation-delay:-.7s }
+.hero__star--3{ bottom:14%; right:8%; color:var(--color-pop-purple); animation-delay:-1.4s }
+.hero__star--4{ top:22%; right:-2%; color:var(--color-pop-sky); animation-delay:-2s }
+@keyframes starTwinkle{
+  0%,100%{ transform:scale(1) rotate(0); opacity:.9 }
+  50%{ transform:scale(1.3) rotate(20deg); opacity:1 }
+}
+
+/* スクロールヒント */
+.hero__scroll{
+  position:absolute;
+  bottom:18px; left:50%;
+  transform:translateX(-50%);
+  z-index:3;
+  display:flex; flex-direction:column; align-items:center; gap:8px;
+  font-family:var(--font-en-display);
+  letter-spacing:.3em;
+  font-size:.75rem;
+  color:var(--color-text-muted);
+}
+.hero__scroll::after{
+  content:''; width:1px; height:42px;
+  background:linear-gradient(to bottom, var(--color-text-muted), transparent);
+  animation:scrollLine 2s ease-in-out infinite;
+}
+@keyframes scrollLine{
+  0%{ transform:scaleY(0); transform-origin:top }
+  50%{ transform:scaleY(1); transform-origin:top }
+  50.01%{ transform-origin:bottom }
+  100%{ transform:scaleY(0); transform-origin:bottom }
+}
+
+@media (max-width:1023px){
+  .hero{ padding-bottom:140px }
+  .hero__collage{ max-width:520px; aspect-ratio:1/1.1 }
+  .hero__scroll{ display:none }
+  .hero__meta{ grid-template-columns:repeat(3, 1fr); gap:8px }
+  .hero__meta-num{ font-size:1.5rem }
+  .hero__meta-label{ font-size:.65rem }
+}
+@media (max-width:640px){
+  .hero__bubble{ width:88px }
+  .hero__photo--top{ width:38% }
+  .hero__photo--corner{ width:33% }
+}
+
+/* ===== Placeholder sections ===== */
+.placeholder{
+  padding:var(--section-py) 0;
+  background:var(--color-bg-paper);
+  text-align:center;
+  border-top:3px dashed rgba(15,23,42,.12);
+}
+.placeholder:nth-of-type(even){ background:var(--color-bg) }
+.placeholder h2{
+  font-family:var(--font-jp-display);
+  font-weight:900;
+  font-size:clamp(1.5rem,3vw,2.2rem);
+  color:var(--color-text-muted);
+}
+.placeholder p{
+  margin-top:8px;
+  color:var(--color-text-muted);
+  font-size:.9rem;
+}

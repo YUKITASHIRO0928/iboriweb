@@ -1,0 +1,35 @@
+html{scroll-behavior:smooth}
+body{
+  font-family:var(--font-jp-body);
+  font-weight:400;
+  color:var(--color-text);
+  background:var(--color-bg);
+  overflow-x:hidden;
+}
+
+.container{
+  width:var(--container);
+  margin-inline:auto;
+}
+
+.eyebrow{
+  display:inline-block;
+  font-family:var(--font-en-display);
+  letter-spacing:.18em;
+  font-size:clamp(.8rem,1.2vw,1rem);
+  color:var(--color-accent);
+  text-transform:uppercase;
+  position:relative;
+  padding-left:36px;
+}
+.eyebrow::before{
+  content:'';
+  position:absolute;
+  left:0;top:50%;
+  width:24px;height:2px;
+  background:var(--color-accent);
+  transform:translateY(-50%);
+}
+
+.text-muted{color:var(--color-text-muted)}
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}

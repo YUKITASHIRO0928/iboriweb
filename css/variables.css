@@ -1,0 +1,60 @@
+:root{
+  /* Brand Core */
+  --color-primary:        #1E3A8A;
+  --color-primary-deep:   #15296A;
+  --color-accent:         #F59E0B;
+  --color-accent-bright:  #FBBF24;
+  --color-secondary:      #3B82F6;
+  --color-highlight:      #FDE047;
+
+  /* Pop palette (Jump x KIDS) */
+  --color-pop-pink:       #EC4899;
+  --color-pop-pink-soft:  #FBCFE8;
+  --color-pop-green:      #10B981;
+  --color-pop-green-soft: #A7F3D0;
+  --color-pop-purple:     #8B5CF6;
+  --color-pop-sky:        #38BDF8;
+  --color-pop-red:        #EF4444;
+
+  /* Base */
+  --color-bg:             #FFFBEB;   /* warm cream */
+  --color-bg-warm:        #FEF3C7;
+  --color-bg-dark:        #0F172A;
+  --color-bg-paper:       #FFFFFF;
+
+  /* Text */
+  --color-text:           #0F172A;
+  --color-text-muted:     #475569;
+  --color-text-inverse:   #FFFFFF;
+
+  /* Functional */
+  --color-line-green:     #06C755;
+
+  /* Typography */
+  --font-jp-body:    'Noto Sans JP', system-ui, -apple-system, 'Hiragino Kaku Gothic ProN', sans-serif;
+  --font-jp-display: 'Zen Kaku Gothic New', 'Noto Sans JP', system-ui, sans-serif;
+  --font-en-display: 'Bebas Neue', Impact, 'Arial Narrow Bold', sans-serif;
+  --font-num:        'Russo One', 'Bebas Neue', sans-serif;
+
+  /* Layout */
+  --container:        min(1280px, 92vw);
+  --section-py:       clamp(64px, 10vw, 128px);
+  --nav-h:            72px;
+
+  /* Effects */
+  --shadow-card:      0 10px 30px -10px rgba(15,23,42,.25);
+  --shadow-card-hover:0 20px 40px -10px rgba(15,23,42,.35);
+  --shadow-gold:      0 0 40px rgba(245,158,11,.45);
+  --radius-sm:        8px;
+  --radius-md:        16px;
+  --radius-lg:        28px;
+  --radius-full:      999px;
+
+  /* Motion */
+  --ease-out: cubic-bezier(.16,1,.3,1);
+  --ease-in-out: cubic-bezier(.83,0,.17,1);
+}
+
+@media (prefers-reduced-motion: reduce){
+  *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important;scroll-behavior:auto!important}
+}

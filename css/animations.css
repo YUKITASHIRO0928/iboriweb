@@ -1,0 +1,5 @@
+/* FOUC回避用 初期状態 (GSAPがロードされたら制御を取る) */
+.js-title-line .hero__title-inner{ transform:translateY(110%); display:inline-block }
+.js-photo-init{ opacity:0 }
+.js-bubble-init{ opacity:0; transform:scale(0) }
+.js-fade-up{ opacity:0; transform:translateY(24px) }

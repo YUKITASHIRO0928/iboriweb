@@ -1,0 +1,405 @@
+/* =========================================================
+   IBC — V20: GLASS MORPH
+   フル画面写真 × ガラスモーフィズム
+   写真主役、上にガラスパネルが浮かぶ
+   ========================================================= */
+
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%}
+body{line-height:1.55;-webkit-font-smoothing:antialiased}
+img,svg{display:block;max-width:100%;height:auto}
+button{background:none;border:0;cursor:pointer;font:inherit;color:inherit}
+a{color:inherit;text-decoration:none}
+ul{list-style:none}
+h1,h2,h3{font-weight:inherit;line-height:1}
+:focus-visible{outline:2px solid var(--accent);outline-offset:4px;border-radius:14px}
+
+:root{
+  --bg:        #0F0820;
+  --ink:       #FFFFFF;
+  --ink-soft:  rgba(255,255,255,.78);
+  --ink-mute:  rgba(255,255,255,.5);
+
+  --accent:        #FF6B35;   /* orange */
+  --accent-2:      #38BDF8;   /* cyan */
+  --accent-3:      #C084FC;   /* purple */
+
+  --glass-bg:     rgba(255,255,255,.10);
+  --glass-bg-2:   rgba(255,255,255,.16);
+  --glass-border: rgba(255,255,255,.22);
+
+  --font-jp:    'Noto Sans JP', system-ui, sans-serif;
+  --font-jp-d:  'Zen Kaku Gothic New', 'Noto Sans JP', sans-serif;
+  --font-en:    'Inter', sans-serif;
+  --font-en-d:  'Bebas Neue', 'Anton', sans-serif;
+  --font-num:   'Bebas Neue', sans-serif;
+  --font-mono:  'JetBrains Mono', monospace;
+
+  --container:  min(1440px, 96vw);
+  --nav-h:      78px;
+  --ease-out:   cubic-bezier(.16,1,.3,1);
+}
+
+@media (prefers-reduced-motion: reduce){
+  *,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important}
+}
+
+body{
+  font-family:var(--font-jp);
+  color:var(--ink);
+  background:var(--bg);
+  overflow-x:hidden;
+}
+
+.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0)}
+
+/* ---------- HERO 全体 ---------- */
+.hero{
+  position:relative;
+  min-height:100vh;
+  overflow:hidden;
+  isolation:isolate;
+}
+
+/* === フル画面写真背景 === */
+.hero__bg{
+  position:absolute; inset:0; z-index:0;
+}
+.hero__bg img{
+  width:100%; height:100%; object-fit:cover;
+  filter:contrast(1.05) saturate(1.1);
+  animation:bgZoom 24s ease-in-out infinite alternate;
+}
+@keyframes bgZoom{
+  from{ transform:scale(1.0) translate(0,0) }
+  to  { transform:scale(1.12) translate(-2%,-2%) }
+}
+/* 部分的に暗くなる暈し（ガラスを浮かせる） */
+.hero__bg::after{
+  content:''; position:absolute; inset:0;
+  background:
+    radial-gradient(ellipse 70% 60% at 50% 50%, rgba(15,8,32,.0) 30%, rgba(15,8,32,.55) 75%, rgba(15,8,32,.85) 100%),
+    linear-gradient(135deg, rgba(255,107,53,.18) 0%, transparent 40%, rgba(56,189,248,.18) 100%);
+}
+
+/* グラデオーブが動く（背景の光沢） */
+.orb{
+  position:absolute;
+  border-radius:50%;
+  filter:blur(60px);
+  opacity:.55;
+  z-index:1;
+  pointer-events:none;
+  animation:orbDrift 14s ease-in-out infinite;
+}
+.orb--orange{ width:36vw; height:36vw; top:-10vw; right:-8vw; background:var(--accent); animation-delay:0s }
+.orb--cyan  { width:28vw; height:28vw; bottom:-8vw; left:-6vw; background:var(--accent-2); animation-delay:-4s }
+.orb--purple{ width:24vw; height:24vw; top:30vh; left:30vw; background:var(--accent-3); opacity:.35; animation-delay:-8s }
+@keyframes orbDrift{
+  0%,100%{ transform:translate(0,0) scale(1) }
+  50%{ transform:translate(30px,-40px) scale(1.08) }
+}
+
+/* ---------- NAV (glass) ---------- */
+.nav{
+  position:fixed; top:14px; left:14px; right:14px;
+  height:var(--nav-h); z-index:50;
+  border-radius:24px;
+  display:flex; align-items:center;
+  background:var(--glass-bg);
+  backdrop-filter:blur(24px) saturate(140%);
+  -webkit-backdrop-filter:blur(24px) saturate(140%);
+  border:1px solid var(--glass-border);
+  box-shadow:0 8px 32px rgba(0,0,0,.3);
+  transition:background .3s;
+}
+.nav__inner{
+  width:100%; padding:0 24px;
+  display:flex; align-items:center; justify-content:space-between;
+}
+.nav__logo{
+  display:flex; align-items:center; gap:12px;
+  font-family:var(--font-en-d); font-size:1.55rem; letter-spacing:.05em;
+  color:var(--ink);
+}
+.nav__logo img{ width:40px; height:40px; filter:drop-shadow(0 0 14px var(--accent)) }
+
+.nav__links{
+  display:none; gap:28px;
+  font-size:.85rem; font-weight:600;
+  color:var(--ink);
+  letter-spacing:.04em;
+}
+.nav__links a{ transition:color .25s }
+.nav__links a:hover{ color:var(--accent) }
+@media (min-width:880px){ .nav__links{display:flex} }
+
+.nav__cta{
+  display:inline-flex; align-items:center; gap:8px;
+  padding:11px 24px;
+  background:var(--accent); color:#fff;
+  font-family:var(--font-jp-d); font-weight:800; font-size:.85rem;
+  border-radius:999px;
+  box-shadow:0 8px 22px -6px rgba(255,107,53,.55);
+  transition:transform .25s, background .25s;
+}
+.nav__cta::after{ content:'↗' }
+.nav__cta:hover{ transform:translateY(-2px); background:#FF8147 }
+
+/* ---------- メインレイアウト ---------- */
+.hero__inner{
+  position:relative; z-index:5;
+  min-height:100vh;
+  display:grid;
+  grid-template-columns:1fr;
+  align-items:end;
+  padding:calc(var(--nav-h) + 64px) 4vw 36px;
+  gap:24px;
+}
+@media (min-width:980px){
+  .hero__inner{
+    grid-template-columns:1.05fr 1fr 1fr;
+    grid-template-rows:auto auto;
+    gap:20px;
+    padding:calc(var(--nav-h) + 80px) 4vw 80px;
+  }
+}
+
+/* === 写真の上にラベル === */
+.hero__label{
+  display:inline-flex; align-items:center; gap:10px;
+  padding:8px 16px;
+  background:var(--glass-bg-2);
+  backdrop-filter:blur(20px);
+  -webkit-backdrop-filter:blur(20px);
+  border:1px solid var(--glass-border);
+  border-radius:999px;
+  font-family:var(--font-mono); font-size:.74rem;
+  letter-spacing:.16em; text-transform:uppercase;
+  color:var(--ink);
+  width:fit-content;
+}
+.hero__label::before{
+  content:''; width:8px; height:8px; background:var(--accent); border-radius:50%;
+  box-shadow:0 0 12px var(--accent);
+  animation:pulse 1.4s ease-in-out infinite;
+}
+@keyframes pulse{ 0%,100%{opacity:1} 50%{opacity:.4} }
+
+/* === メインタイトルカード（ガラス） === */
+.card{
+  background:var(--glass-bg);
+  backdrop-filter:blur(28px) saturate(140%);
+  -webkit-backdrop-filter:blur(28px) saturate(140%);
+  border:1px solid var(--glass-border);
+  border-radius:28px;
+  padding:28px 32px;
+  box-shadow:
+    0 16px 40px -10px rgba(0,0,0,.4),
+    inset 0 1px 0 rgba(255,255,255,.25);
+}
+.card-title{
+  grid-column:1 / 2;
+  grid-row:1 / 3;
+  display:flex; flex-direction:column; gap:18px;
+}
+@media (max-width:979px){
+  .card-title{ grid-column:1 / -1; grid-row:auto }
+}
+
+.hero__title{
+  font-family:var(--font-jp-d);
+  font-weight:900;
+  font-size:clamp(2.6rem, 6.5vw, 5.4rem);
+  line-height:1.0;
+  letter-spacing:-.025em;
+  color:var(--ink);
+  text-shadow:0 4px 30px rgba(0,0,0,.4);
+}
+.hero__title-line{ display:block; overflow:hidden; padding-block:.04em }
+.hero__title-line + .hero__title-line{ margin-top:.04em }
+.hero__title-inner{ display:inline-block }
+
+.hero__title-grad{
+  display:inline-block;
+  background:linear-gradient(135deg, var(--accent) 0%, var(--accent-3) 50%, var(--accent-2) 100%);
+  -webkit-background-clip:text; background-clip:text;
+  -webkit-text-fill-color:transparent;
+  font-style:italic;
+}
+
+.hero__title-dot{
+  display:inline-block;
+  width:.18em; height:.18em;
+  background:var(--accent-2);
+  border-radius:50%;
+  margin-left:.04em;
+  vertical-align:.16em;
+  box-shadow:0 0 16px var(--accent-2);
+}
+
+.hero__sub{
+  font-size:clamp(.95rem, 1.18vw, 1.08rem);
+  line-height:1.85;
+  color:var(--ink-soft);
+  max-width:520px;
+  font-weight:500;
+}
+.hero__sub strong{ color:var(--ink); font-weight:700 }
+
+.hero__ctas{ display:flex; flex-wrap:wrap; gap:12px; margin-top:6px }
+.btn{
+  display:inline-flex; align-items:center; gap:10px;
+  padding:14px 26px;
+  font-family:var(--font-jp-d); font-weight:700; font-size:.9rem;
+  border-radius:999px;
+  transition:transform .25s, background .25s, color .25s;
+  position:relative;
+  letter-spacing:.02em;
+}
+.btn::after{ content:'→'; transition:transform .3s }
+.btn:hover::after{ transform:translateX(6px) }
+.btn--solid{
+  background:linear-gradient(135deg, var(--accent), #FF8147);
+  color:#fff;
+  box-shadow:0 14px 30px -8px rgba(255,107,53,.5);
+}
+.btn--solid:hover{ transform:translateY(-2px); box-shadow:0 18px 36px -8px rgba(255,107,53,.65) }
+.btn--glass{
+  background:rgba(255,255,255,.14);
+  color:#fff;
+  backdrop-filter:blur(20px);
+  border:1px solid rgba(255,255,255,.3);
+}
+.btn--glass:hover{ background:rgba(255,255,255,.24) }
+.btn-badge{
+  position:absolute; top:-9px; right:8px;
+  background:var(--accent-2); color:var(--bg);
+  font-family:var(--font-mono); font-size:.62rem; font-weight:700;
+  padding:3px 9px; border-radius:999px; letter-spacing:.04em;
+}
+
+/* === 統計カード（ガラス、3個） === */
+.card-stat{
+  grid-row:2;
+  text-align:left;
+  padding:20px 22px;
+  display:flex; flex-direction:column; gap:4px;
+}
+.card-stat--1{ grid-column:2 / 3 }
+.card-stat--2{ grid-column:3 / 4 }
+.card-stat--3{ grid-row:1; grid-column:3 / 4; min-height:auto }
+@media (max-width:979px){
+  .card-stat--1, .card-stat--2, .card-stat--3{ grid-column:auto; grid-row:auto }
+}
+
+.card-stat-label{
+  font-family:var(--font-mono); font-size:.7rem;
+  letter-spacing:.16em; text-transform:uppercase;
+  color:var(--ink-mute);
+}
+.card-stat-num{
+  font-family:var(--font-num);
+  font-size:clamp(2.4rem, 4vw, 3.4rem);
+  line-height:1;
+  color:var(--ink);
+}
+.card-stat--1 .card-stat-num{ color:var(--accent) }
+.card-stat--2 .card-stat-num{ color:var(--accent-2) }
+.card-stat--3 .card-stat-num{ color:var(--accent-3) }
+.card-stat-num small{ font-size:.4em; margin-left:4px; color:var(--ink-soft); font-weight:normal }
+.card-stat-desc{
+  font-size:.8rem; color:var(--ink-soft);
+  line-height:1.5; margin-top:4px;
+  font-weight:500;
+}
+
+/* === 写真サブカード（フローティング） === */
+.card-photo{
+  position:absolute;
+  top:calc(var(--nav-h) + 100px); right:4vw;
+  z-index:6;
+  width:clamp(180px, 22vw, 280px);
+  aspect-ratio:3/4;
+  padding:8px;
+  background:var(--glass-bg-2);
+  backdrop-filter:blur(20px);
+  border:1px solid var(--glass-border);
+  border-radius:24px;
+  box-shadow:0 20px 40px -8px rgba(0,0,0,.5);
+  overflow:hidden;
+  animation:cardFloat 5s ease-in-out infinite;
+}
+@keyframes cardFloat{
+  0%,100%{ transform:translateY(0) }
+  50%{ transform:translateY(-12px) }
+}
+.card-photo img{
+  width:100%; height:100%; object-fit:cover;
+  border-radius:18px;
+}
+.card-photo-cap{
+  position:absolute; left:16px; right:16px; bottom:18px;
+  z-index:2;
+  font-family:var(--font-mono); font-size:.7rem;
+  color:#fff; letter-spacing:.12em;
+  text-transform:uppercase;
+  text-shadow:0 2px 8px rgba(0,0,0,.6);
+}
+@media (max-width:979px){ .card-photo{ display:none } }
+
+/* === 第2写真サブカード === */
+.card-photo-2{
+  position:absolute;
+  top:60%; right:14vw;
+  z-index:6;
+  width:clamp(120px, 14vw, 180px);
+  aspect-ratio:1/1;
+  padding:6px;
+  background:var(--glass-bg-2);
+  backdrop-filter:blur(20px);
+  border:1px solid var(--glass-border);
+  border-radius:50%;
+  box-shadow:0 16px 32px -8px rgba(0,0,0,.5);
+  animation:cardFloat 6s ease-in-out -2s infinite;
+}
+.card-photo-2 img{
+  width:100%; height:100%; object-fit:cover;
+  border-radius:50%;
+}
+@media (max-width:979px){ .card-photo-2{ display:none } }
+
+/* スクロール */
+.hero__scroll{
+  position:absolute; bottom:16px; left:50%;
+  transform:translateX(-50%);
+  z-index:7;
+  display:flex; align-items:center; gap:14px;
+  font-family:var(--font-mono); font-size:.7rem;
+  letter-spacing:.32em; color:var(--ink-soft); text-transform:uppercase;
+}
+.hero__scroll::before, .hero__scroll::after{
+  content:''; width:36px; height:1px;
+  background:linear-gradient(to right, transparent, var(--accent), transparent);
+}
+
+/* placeholder */
+.ph{
+  padding:96px 0; text-align:center;
+  background:rgba(255,255,255,.04);
+  backdrop-filter:blur(20px);
+  border-top:1px solid var(--glass-border);
+}
+.ph h2{ font-family:var(--font-jp-d); font-weight:900; font-size:clamp(1.4rem,2.8vw,2.1rem); color:var(--ink-soft) }
+.ph p{ margin-top:8px; color:var(--ink-mute); font-size:.9rem }
+
+.foot{
+  background:rgba(0,0,0,.4);
+  backdrop-filter:blur(20px);
+  color:var(--ink-mute);
+  padding:56px 0; text-align:center; font-size:.85rem;
+}
+
+/* init */
+.js-title-line .hero__title-inner{ transform:translateY(110%) }
+.js-fade{ opacity:0; transform:translateY(20px) }

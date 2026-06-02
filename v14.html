@@ -1,0 +1,171 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>井堀バドミントンクラブ｜IBC [Fresh Court]</title>
+<meta name="description" content="北九州・小倉北の小学生バドミントンクラブ。九州大会9名・全国大会4名出場。">
+<meta name="theme-color" content="#F4FBFF">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Bebas+Neue&family=Inter:wght@500;700;800;900&family=Noto+Sans+JP:wght@500;700;900&family=Zen+Kaku+Gothic+New:wght@700;900&display=swap" rel="stylesheet">
+<link rel="preload" as="image" href="assets/cutouts/hero-smash-cutout-lg.webp" fetchpriority="high">
+<link rel="stylesheet" href="css/v14.css">
+</head>
+<body>
+
+<header class="nav" role="banner">
+  <div class="nav__inner">
+    <a href="index.html" class="nav__logo">
+      <img src="assets/logo/logo-sm.webp" alt="" width="42" height="42">
+      <span>IBC</span>
+    </a>
+    <nav class="nav__links" aria-label="メインナビゲーション">
+      <a href="#philosophy">クラブ紹介</a>
+      <a href="#schedule">練習</a>
+      <a href="#gallery">実績</a>
+      <a href="#events">イベント</a>
+      <a href="#faq">Q&amp;A</a>
+    </nav>
+    <a href="#contact" class="nav__cta">体験する</a>
+  </div>
+</header>
+
+<main>
+<section class="hero" id="hero">
+  <div class="hero__court" aria-hidden="true"></div>
+  <span class="hero__big hero__big--9" aria-hidden="true">9</span>
+
+  <!-- 下部ウェーブSVG -->
+  <svg class="hero__wave" viewBox="0 0 1440 320" preserveAspectRatio="none" aria-hidden="true">
+    <defs>
+      <linearGradient id="waveGrad" x1="0%" y1="0%" x2="100%" y2="50%">
+        <stop offset="0%"  stop-color="#0067D6"/>
+        <stop offset="50%" stop-color="#00B8E6"/>
+        <stop offset="100%" stop-color="#00D9A3"/>
+      </linearGradient>
+      <linearGradient id="waveGrad2" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%"  stop-color="#00B8E6" stop-opacity=".5"/>
+        <stop offset="100%" stop-color="#00D9A3" stop-opacity=".4"/>
+      </linearGradient>
+    </defs>
+    <path d="M0,160 C240,80 480,40 720,80 C960,120 1200,200 1440,160 L1440,320 L0,320 Z"
+          fill="url(#waveGrad2)"/>
+    <path d="M0,200 C240,160 480,120 720,160 C960,200 1200,260 1440,220 L1440,320 L0,320 Z"
+          fill="url(#waveGrad)"/>
+    <path d="M0,200 C240,160 480,120 720,160 C960,200 1200,260 1440,220"
+          stroke="#FFD60A" stroke-width="3" fill="none" stroke-linecap="round"/>
+  </svg>
+
+  <!-- シャトル -->
+  <svg class="shuttle-deco shuttle-deco--1" viewBox="0 0 60 60" aria-hidden="true">
+    <g transform="translate(8,8)">
+      <ellipse cx="22" cy="22" rx="8" ry="6" fill="#fff" stroke="#0067D6" stroke-width="1.2"/>
+      <path d="M 28 14 L 50 4 L 48 12 Z" fill="#F4FBFF" stroke="#0067D6" stroke-width=".8"/>
+      <path d="M 28 22 L 52 22" stroke="#0067D6" stroke-width=".8"/>
+      <path d="M 28 30 L 50 40 L 48 32 Z" fill="#F4FBFF" stroke="#0067D6" stroke-width=".8"/>
+    </g>
+  </svg>
+  <svg class="shuttle-deco shuttle-deco--2" viewBox="0 0 60 60" aria-hidden="true">
+    <g transform="translate(8,8)">
+      <ellipse cx="22" cy="22" rx="8" ry="6" fill="#fff" stroke="#00D9A3" stroke-width="1.2"/>
+      <path d="M 28 14 L 50 4 L 48 12 Z" fill="#F4FBFF" stroke="#00D9A3" stroke-width=".8"/>
+      <path d="M 28 22 L 52 22" stroke="#00D9A3" stroke-width=".8"/>
+      <path d="M 28 30 L 50 40 L 48 32 Z" fill="#F4FBFF" stroke="#00D9A3" stroke-width=".8"/>
+    </g>
+  </svg>
+
+  <div class="hero__inner">
+    <div class="hero__content">
+      <span class="hero__chip">
+        <span class="hero__chip-dot"></span>
+        <span class="hero__chip-num">2025</span>
+        体験募集中・北九州小倉北
+      </span>
+
+      <h1 class="hero__title">
+        <span class="hero__title-line js-title-line"><span class="hero__title-inner">努力無くして、</span></span>
+        <span class="hero__title-line js-title-line"><span class="hero__title-inner"><span class="hero__title-grad">笑利</span>なし<span class="hero__title-period" aria-hidden="true"></span></span></span>
+      </h1>
+
+      <p class="hero__sub">
+        九州大会9名・全国大会4名出場の<strong>強豪クラブ</strong>。<br>
+        だけど<span class="hero__sub-mark">本気で楽しい</span>。
+        親子で大歓迎、初心者から全国まで。
+      </p>
+
+      <div class="hero__ctas">
+        <a href="https://www.instagram.com/iboribadmintonclub/" target="_blank" rel="noopener" class="btn btn--grad">
+          無料体験を申し込む
+        </a>
+        <a href="#" class="btn btn--ghost" data-pending="true">
+          LINEで相談
+          <span class="btn-badge">準備中</span>
+        </a>
+      </div>
+
+      <dl class="hero__board" aria-label="令和7年度実績">
+        <div class="hero__cell">
+          <div class="hero__cell-label">Kyushu</div>
+          <dt class="hero__cell-num">9<small>名</small></dt>
+          <dd class="hero__cell-desc">九州大会出場<br>小学生 / R7</dd>
+        </div>
+        <div class="hero__cell">
+          <div class="hero__cell-label">National</div>
+          <dt class="hero__cell-num">4<small>名</small></dt>
+          <dd class="hero__cell-desc">全国大会出場<br>小学生 / R7</dd>
+        </div>
+        <div class="hero__cell">
+          <div class="hero__cell-label">Prefectural</div>
+          <dt class="hero__cell-num" style="font-size:1.2rem;padding-top:.5em">県大会</dt>
+          <dd class="hero__cell-desc">中学生<br>団体・個人</dd>
+        </div>
+      </dl>
+    </div>
+
+    <div class="hero__visual">
+      <div class="hero__photo-bg" aria-hidden="true"></div>
+
+      <figure class="hero__photo">
+        <img src="assets/cutouts/hero-smash-cutout-lg.webp"
+             alt="スマッシュを打つIBCの小学生"
+             width="1280" height="1280" fetchpriority="high">
+      </figure>
+
+      <figure class="hero__chip-photo hero__chip-photo--1">
+        <img src="assets/photos/team-stretch-md.webp" alt="チームストレッチ" width="200" height="200">
+      </figure>
+      <figure class="hero__chip-photo hero__chip-photo--2">
+        <img src="assets/photos/warmup-grass-md.webp" alt="芝生でウォームアップ" width="200" height="200">
+      </figure>
+
+      <div class="hero__badge" aria-label="初心者大歓迎">初心者<br>大歓迎</div>
+
+      <span class="spark spark--1" aria-hidden="true">✦</span>
+      <span class="spark spark--2" aria-hidden="true">★</span>
+      <span class="spark spark--3" aria-hidden="true">✦</span>
+    </div>
+  </div>
+
+  <div class="hero__scroll" aria-hidden="true">SCROLL</div>
+</section>
+
+<section class="ph" id="stats"><div class="container"><h2>#stats — 数字で見るIBC</h2><p>実装予定</p></div></section>
+<section class="ph" id="features"><div class="container"><h2>#features</h2><p>実装予定</p></div></section>
+<section class="ph" id="philosophy"><div class="container"><h2>#philosophy</h2><p>実装予定</p></div></section>
+<section class="ph" id="contact"><div class="container"><h2>#contact</h2><p>実装予定</p></div></section>
+
+</main>
+
+<footer class="foot">
+  <div class="container">
+    <p>© 井堀バドミントンクラブ (IBC) — 北九州市小倉北区</p>
+  </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/studio-freight/lenis@1.0.42/bundled/lenis.min.js"></script>
+<script src="js/v14.js"></script>
+</body>
+</html>

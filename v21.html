@@ -1,0 +1,179 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>~/ibori-bc — main [Terminal]</title>
+<meta name="description" content="北九州・小倉北の小学生バドミントンクラブ。九州大会9名・全国大会4名出場。">
+<meta name="theme-color" content="#0A0E14">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@500&family=JetBrains+Mono:wght@400;500;600;700&family=Noto+Sans+JP:wght@500;700&family=Zen+Kaku+Gothic+New:wght@700;900&display=swap" rel="stylesheet">
+<link rel="preload" as="image" href="assets/photos/action-team-xl.webp" fetchpriority="high">
+<link rel="stylesheet" href="css/v21.css">
+</head>
+<body>
+
+<header class="nav" role="banner">
+  <div class="nav__inner">
+    <a href="index.html" class="win-controls" aria-label="ホームに戻る">
+      <span></span><span></span><span></span>
+    </a>
+    <div class="nav__title"><strong>~/ibori-bc</strong><span class="ext">.run</span></div>
+    <div class="nav__tabs">
+      <span class="nav__tab is-active">hero.tsx</span>
+      <span class="nav__tab">about.md</span>
+      <span class="nav__tab">schedule.json</span>
+      <span class="nav__tab">stats.yaml</span>
+      <span class="nav__tab">contact.sh</span>
+    </div>
+    <a href="#contact" class="nav__cta">trial.apply</a>
+  </div>
+</header>
+
+<main>
+<section class="hero" id="hero">
+
+  <!-- ステータスバー -->
+  <div class="statusbar">
+    <div class="statusbar-left">
+      <span class="live">LIVE</span>
+      <span>BRANCH: <strong>main</strong></span>
+      <span>SEASON: <strong>R7</strong></span>
+      <span>STATUS: <strong>体験募集中</strong></span>
+    </div>
+    <div class="statusbar-right">IBORI BC ／ KITAKYUSHU JP ／ EST.2008</div>
+  </div>
+
+  <!-- メインエリア -->
+  <div class="hero__main">
+
+    <!-- 左: コードエディタ -->
+    <div class="panel">
+      <div class="panel-head">
+        <span class="panel-head-dot"></span>
+        <span class="filename">hero.tsx <span class="ext">— main</span></span>
+      </div>
+      <div class="panel-body">
+        <span class="code-comment">// IBC — Ibori Badminton Club</span>
+        <span class="code-comment">// 北九州・小倉北 ／ 小学生〜中学生</span>
+        <br>
+        <span class="code-line">
+          <span class="code-key">const</span>
+          <span class="code-fn"> philosophy</span> =
+          <span class="code-str">"努力無くして、笑利なし"</span>;
+        </span>
+        <br>
+
+        <h1 class="code-title">
+          <span class="typewrite" style="display:block">努力無くして、</span>
+          <span><span class="code-title-em">笑利</span>なし<span class="code-title-dot" aria-hidden="true"></span></span>
+        </h1>
+
+        <span class="code-sub">
+          九州大会 <strong>9名</strong>・全国大会 <strong>4名</strong> 出場の強豪クラブ。<br>
+          初心者・親子で大歓迎です。
+        </span>
+
+        <br>
+        <span class="code-line">
+          <span class="code-key">return</span>
+          <span class="code-var"> { sweat, smile, victory }</span>;<span class="cursor"></span>
+        </span>
+
+        <div class="code-ctas">
+          <a href="https://www.instagram.com/iboribadmintonclub/" target="_blank" rel="noopener" class="btn btn--cyan">
+            apply.trial()
+          </a>
+          <a href="#" class="btn btn--ghost" data-pending="true">
+            line.chat()
+            <span class="btn-badge">SOON</span>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- 右: 写真パネル大 -->
+    <div class="panel panel-img">
+      <div class="panel-head">
+        <span class="panel-head-dot"></span>
+        <span class="filename">main.jpg <span class="ext">— preview</span></span>
+        <span style="margin-left:auto; font-size:.62rem; color:var(--ink-mute)">1920 × 1280 ／ webp</span>
+      </div>
+      <div class="panel-body">
+        <div class="img-container">
+          <img src="assets/photos/action-team-xl.webp"
+               alt="井堀バドミントンクラブの躍動するチーム"
+               width="1920" height="1280" fetchpriority="high">
+
+          <span class="img-corner img-corner--tl"></span>
+          <span class="img-corner img-corner--tr"></span>
+          <span class="img-corner img-corner--bl"></span>
+          <span class="img-corner img-corner--br"></span>
+
+          <div class="img-hud">
+            <div class="img-hud-left">
+              <strong>./</strong>action-team.webp
+            </div>
+            <div class="img-hud-right">
+              <span class="img-hud-num">R7</span>
+              <span>// KITAKYUSHU SEASON</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="img-footer">
+          <span>EXPOSURE <strong>+0.3</strong></span>
+          <span>LIVE <strong>● rec</strong></span>
+          <span>OK <strong>200</strong></span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ボトムバー: 統計 + サブ写真 -->
+  <div class="bottombar">
+    <div class="stat-panel">
+      <span class="stat-panel-label">// Kyushu</span>
+      <span class="stat-panel-num"><span class="count" data-target="9">9</span><small>名</small></span>
+      <span class="stat-panel-desc">九州大会出場<br>R7 / 小学生</span>
+    </div>
+    <div class="stat-panel">
+      <span class="stat-panel-label">// National</span>
+      <span class="stat-panel-num"><span class="count" data-target="4">4</span><small>名</small></span>
+      <span class="stat-panel-desc">全国大会出場<br>R7 / 小学生</span>
+    </div>
+    <div class="stat-panel">
+      <span class="stat-panel-label">// Pref.</span>
+      <span class="stat-panel-num" style="font-size:1.3rem;padding-top:.4em">県大会</span>
+      <span class="stat-panel-desc">中学生<br>団体・個人</span>
+    </div>
+    <div class="sub-img">
+      <span class="sub-img-tag">// IMG.02</span>
+      <img src="assets/photos/award-group-md.webp" alt="表彰式集合">
+    </div>
+    <div class="sub-img">
+      <span class="sub-img-tag">// IMG.03</span>
+      <img src="assets/photos/huddle-girls-md.webp" alt="円陣">
+    </div>
+  </div>
+
+  <div class="hero__scroll" aria-hidden="true">↓ scroll</div>
+</section>
+
+<section class="ph" id="philosophy"><h2>// about.md</h2><p>To be implemented</p></section>
+<section class="ph" id="schedule"><h2>// schedule.json</h2><p>To be implemented</p></section>
+<section class="ph" id="contact"><h2>// contact.sh</h2><p>To be implemented</p></section>
+
+</main>
+
+<footer class="foot">
+  <p>$ echo "© IBC ／ KITAKYUSHU BADMINTON CLUB ／ 2008-2025"</p>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/studio-freight/lenis@1.0.42/bundled/lenis.min.js"></script>
+<script src="js/v21.js"></script>
+</body>
+</html>

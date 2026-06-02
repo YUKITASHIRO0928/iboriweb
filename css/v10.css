@@ -1,0 +1,564 @@
+/* =========================================================
+   IBC — V10: SCRAPBOOK / Sticker Diary
+   クラフト紙ノート × マスキングテープ × 付箋 × 手書き
+   ========================================================= */
+
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%}
+body{line-height:1.55;-webkit-font-smoothing:antialiased}
+img,svg{display:block;max-width:100%;height:auto}
+button{background:none;border:0;cursor:pointer;font:inherit;color:inherit}
+a{color:inherit;text-decoration:none}
+ul{list-style:none}
+h1,h2,h3{font-weight:inherit;line-height:1}
+:focus-visible{outline:2.5px solid #FF6B35;outline-offset:4px}
+
+:root{
+  --paper:      #FBF6E9;    /* craft paper */
+  --paper-2:    #F0E8D2;
+  --paper-3:    #FFFDF6;    /* white note */
+  --line:       #D9CDA8;    /* notebook lines */
+
+  --ink:        #2E2A1F;
+  --ink-soft:   #6B6149;
+
+  --tape-1:     #FFC247;    /* yellow tape */
+  --tape-2:     #FF8FA3;    /* pink tape */
+  --tape-3:     #87CEEB;    /* blue tape */
+  --tape-4:     #98D8AA;    /* green tape */
+  --tape-5:     #C8A2E8;    /* purple tape */
+
+  --hilite-yellow: #FFE066;
+  --hilite-pink:   #FFB3C7;
+  --hilite-blue:   #A8DADC;
+  --hilite-green:  #BFE7BF;
+
+  --accent-red:    #E63946;
+  --accent-pink:   #FF6B9D;
+  --accent-blue:   #4A90E2;
+  --accent-orange: #FF6B35;
+  --accent-purple: #8E5BC9;
+  --accent-green:  #2D8659;
+
+  --font-jp:    'Klee One', 'Noto Sans JP', system-ui, sans-serif;
+  --font-jp-d:  'Yusei Magic', 'Klee One', sans-serif;
+  --font-script:'Caveat', cursive;
+  --font-mono:  'Architects Daughter', 'Caveat', monospace;
+  --font-en:    'Caveat', cursive;
+  --font-num:   'Yusei Magic', sans-serif;
+
+  --container:  min(1380px, 94vw);
+  --nav-h:      76px;
+  --ease-out:   cubic-bezier(.22,1,.36,1);
+}
+
+@media (prefers-reduced-motion: reduce){
+  *,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important}
+}
+
+body{
+  font-family:var(--font-jp);
+  color:var(--ink);
+  background:var(--paper);
+  overflow-x:hidden;
+  /* paper grain + lines */
+  background-image:
+    /* fiber dots */
+    radial-gradient(rgba(46,42,31,.06) .8px, transparent .8px),
+    radial-gradient(rgba(180,150,80,.06) 1.2px, transparent 1.2px),
+    /* horizontal lines (notebook) */
+    repeating-linear-gradient(180deg,
+      transparent 0,
+      transparent 38px,
+      rgba(217,205,168,.5) 38px,
+      rgba(217,205,168,.5) 39px);
+  background-size:18px 18px, 27px 27px, 100% 39px;
+  background-position:0 0, 9px 9px, 0 0;
+}
+
+.container{ width:var(--container); margin-inline:auto }
+.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0)}
+
+/* ---------- NAV ---------- */
+.nav{
+  position:fixed; top:0; left:0; right:0; height:var(--nav-h); z-index:50;
+  display:flex; align-items:center;
+  transition:background .35s, box-shadow .35s;
+}
+.nav__inner{
+  width:var(--container); margin-inline:auto;
+  display:flex; align-items:center; justify-content:space-between;
+}
+.nav__logo{
+  display:flex; align-items:center; gap:12px;
+  font-family:var(--font-jp-d); font-weight:600; font-size:1.3rem;
+  color:var(--ink);
+}
+.nav__logo img{
+  width:44px; height:44px;
+  filter:drop-shadow(2px 3px 0 rgba(46,42,31,.15));
+}
+
+.nav__links{
+  display:none; gap:24px;
+  font-family:var(--font-jp); font-size:.92rem; font-weight:600;
+  color:var(--ink);
+}
+.nav__links a{
+  position:relative; padding:4px 6px;
+  transition:background .25s;
+}
+.nav__links a:hover{
+  background:var(--hilite-yellow);
+  transform:rotate(-1deg);
+}
+
+.nav.is-scrolled{
+  background:rgba(251,246,233,.92);
+  backdrop-filter:blur(10px);
+  box-shadow:0 3px 10px -4px rgba(46,42,31,.18);
+}
+@media (min-width:880px){ .nav__links{display:flex} }
+
+.nav__cta{
+  display:inline-flex; align-items:center; gap:8px;
+  padding:10px 22px;
+  background:var(--accent-orange); color:#fff;
+  font-family:var(--font-jp-d); font-weight:600; font-size:.86rem;
+  border-radius:6px;
+  box-shadow:3px 3px 0 var(--ink);
+  transition:transform .2s var(--ease-out), box-shadow .2s;
+  border:2px solid var(--ink);
+}
+.nav__cta::after{ content:'→' }
+.nav__cta:hover{ transform:translate(-2px,-2px); box-shadow:5px 5px 0 var(--ink) }
+
+/* ---------- HERO ---------- */
+.hero{
+  position:relative;
+  min-height:100vh;
+  padding:calc(var(--nav-h) + 24px) 0 80px;
+  overflow:hidden;
+  isolation:isolate;
+}
+
+/* === デコ: マスキングテープ（角に貼る） === */
+.tape{
+  position:absolute;
+  z-index:3;
+  pointer-events:none;
+  height:30px;
+  opacity:.95;
+  box-shadow:0 2px 4px rgba(0,0,0,.08);
+}
+.tape::before, .tape::after{
+  content:''; position:absolute; top:0; height:100%; width:4px;
+}
+.tape--corner-tl{
+  top:24px; left:-30px;
+  width:120px;
+  background:var(--tape-1);
+  transform:rotate(-45deg);
+  background-image:repeating-linear-gradient(45deg, rgba(255,255,255,.18) 0 4px, transparent 4px 8px);
+}
+.tape--corner-tr{
+  top:14px; right:-40px;
+  width:140px;
+  background:var(--tape-2);
+  transform:rotate(40deg);
+  background-image:repeating-linear-gradient(-45deg, rgba(255,255,255,.18) 0 4px, transparent 4px 8px);
+}
+
+/* === デコ: 付箋 === */
+.sticky{
+  position:absolute;
+  background:var(--hilite-yellow);
+  padding:14px 18px;
+  font-family:var(--font-script);
+  font-weight:700;
+  font-size:1.1rem;
+  color:var(--ink);
+  box-shadow:3px 4px 8px rgba(0,0,0,.12);
+  z-index:3;
+  line-height:1.3;
+  max-width:200px;
+}
+.sticky::before{
+  content:''; position:absolute; top:0; left:50%;
+  transform:translateX(-50%); width:60px; height:14px;
+  background:rgba(255,255,255,.45);
+  filter:blur(2px);
+}
+.sticky--note1{
+  top:14%; right:6%;
+  background:var(--hilite-blue);
+  transform:rotate(6deg);
+  animation:stickyTilt 4s ease-in-out infinite;
+}
+.sticky--note2{
+  bottom:18%; left:4%;
+  background:var(--hilite-pink);
+  transform:rotate(-8deg);
+  animation:stickyTilt 4.5s ease-in-out -2s infinite;
+}
+@keyframes stickyTilt{
+  0%,100%{ transform:rotate(var(--r,6deg)) }
+  50%{ transform:rotate(calc(var(--r,6deg) + 2deg)) translateY(-4px) }
+}
+.sticky--note1{ --r:6deg } .sticky--note2{ --r:-8deg }
+
+/* === デコ: ステッカー === */
+.sticker{
+  position:absolute;
+  z-index:4;
+  pointer-events:none;
+  user-select:none;
+  filter:drop-shadow(2px 3px 4px rgba(0,0,0,.15));
+}
+.sticker--star{
+  top:30%; right:42%;
+  font-size:2.4rem;
+  color:var(--tape-1);
+  animation:stickerPop 3s ease-in-out infinite;
+}
+.sticker--heart{
+  top:65%; right:34%;
+  font-size:2rem;
+  color:var(--accent-pink);
+  animation:stickerPop 3.5s ease-in-out -1s infinite;
+}
+.sticker--smile{
+  bottom:8%; right:48%;
+  font-size:1.8rem;
+  animation:stickerPop 4s ease-in-out -2s infinite;
+}
+@keyframes stickerPop{
+  0%,100%{ transform:scale(1) rotate(0) }
+  50%{ transform:scale(1.15) rotate(8deg) }
+}
+
+/* === デコ: 手書き矢印 === */
+.scribble{
+  position:absolute;
+  z-index:3;
+  pointer-events:none;
+}
+.scribble--arrow1{
+  top:38%; left:38%;
+  font-family:var(--font-script);
+  font-size:1.4rem;
+  color:var(--accent-orange);
+  font-weight:700;
+  transform:rotate(-8deg);
+}
+.scribble--arrow1::after{
+  content:''; display:block;
+  width:80px; height:30px; margin-top:4px;
+  border-bottom:2.5px solid var(--accent-orange);
+  border-right:2.5px solid var(--accent-orange);
+  border-bottom-right-radius:30px;
+  transform:rotate(20deg);
+}
+
+/* === メイン === */
+.hero__inner{
+  position:relative; z-index:5;
+  width:var(--container); margin-inline:auto;
+  display:grid; grid-template-columns:1fr;
+  gap:48px; align-items:start;
+}
+@media (min-width:980px){ .hero__inner{ grid-template-columns:1.05fr 1fr; gap:40px; align-items:center } }
+
+/* ---- 左コピー ---- */
+.hero__content{ position:relative; display:flex; flex-direction:column; gap:24px }
+
+.hero__date{
+  display:inline-flex; align-items:center; gap:14px;
+  font-family:var(--font-script);
+  font-size:1.1rem;
+  color:var(--ink-soft);
+}
+.hero__date::before{
+  content:''; width:24px; height:3px; background:var(--ink);
+}
+.hero__date strong{
+  color:var(--accent-orange);
+  font-weight:700;
+}
+
+.hero__title{
+  font-family:var(--font-jp-d);
+  font-weight:600;
+  font-size:clamp(2.6rem, 7vw, 5.6rem);
+  line-height:1.05;
+  letter-spacing:-.01em;
+  color:var(--ink);
+}
+.hero__title-line{ display:block; overflow:hidden; padding-block:.04em }
+.hero__title-line + .hero__title-line{ margin-top:.04em }
+.hero__title-inner{ display:inline-block }
+
+/* 「笑利」マーカー風ハイライト */
+.hero__title-hi{
+  display:inline-block;
+  position:relative;
+  z-index:1;
+  color:var(--ink);
+}
+.hero__title-hi::before{
+  content:''; position:absolute;
+  left:-.04em; right:-.06em; bottom:.04em;
+  height:.5em;
+  background:var(--hilite-yellow);
+  z-index:-1;
+  transform:skewX(-4deg) scaleX(0);
+  transform-origin:left;
+  animation:hiPaint 1.0s var(--ease-out) 1.0s forwards;
+}
+@keyframes hiPaint{ to{ transform:skewX(-4deg) scaleX(1) } }
+
+.hero__title-circle{
+  display:inline-block;
+  position:relative;
+  z-index:1;
+}
+.hero__title-circle::before{
+  content:''; position:absolute;
+  inset:-.05em -.12em;
+  border:3px solid var(--accent-red);
+  border-radius:50% 60% 50% 70% / 60% 50% 60% 50%;
+  z-index:-1;
+  transform:rotate(-3deg) scale(0);
+  animation:circleDraw 1.0s var(--ease-out) 1.3s forwards;
+}
+@keyframes circleDraw{ to{ transform:rotate(-3deg) scale(1) } }
+
+.hero__sub{
+  font-size:clamp(1rem, 1.3vw, 1.15rem);
+  line-height:1.95;
+  color:var(--ink);
+  max-width:520px;
+  font-weight:500;
+}
+.hero__sub-mark{
+  background:var(--hilite-yellow);
+  font-weight:700;
+  padding:0 4px;
+}
+.hero__sub-strike{
+  text-decoration:line-through;
+  text-decoration-color:var(--accent-red);
+  text-decoration-thickness:2.5px;
+  color:var(--ink-soft);
+}
+
+.hero__ctas{ display:flex; flex-wrap:wrap; gap:14px; margin-top:6px }
+.btn{
+  display:inline-flex; align-items:center; gap:10px;
+  padding:16px 28px;
+  font-family:var(--font-jp-d); font-weight:600; font-size:.95rem;
+  border-radius:8px;
+  position:relative;
+  border:2.5px solid var(--ink);
+  transition:transform .2s var(--ease-out), box-shadow .2s;
+}
+.btn::after{ content:'→'; transition:transform .3s }
+.btn--sticky{
+  background:var(--accent-orange); color:#fff;
+  box-shadow:5px 5px 0 var(--ink);
+  transform:rotate(-1deg);
+}
+.btn--sticky:hover{ transform:rotate(-1deg) translate(-2px,-2px); box-shadow:7px 7px 0 var(--ink) }
+.btn--sticky::after{ content:'✦' }
+.btn--note{
+  background:#fff; color:var(--ink);
+  box-shadow:5px 5px 0 var(--ink);
+}
+.btn--note:hover{ transform:translate(-2px,-2px); box-shadow:7px 7px 0 var(--ink) }
+.btn-badge{
+  position:absolute; top:-10px; right:8px;
+  background:var(--hilite-yellow); color:var(--ink);
+  font-size:.62rem; font-weight:900; padding:3px 9px;
+  letter-spacing:.04em;
+  border:2px solid var(--ink);
+  transform:rotate(8deg);
+}
+
+/* Stats - 三角ピン留め */
+.hero__stats{
+  display:grid; grid-template-columns:repeat(3,1fr);
+  gap:14px;
+  margin-top:12px;
+}
+.hero__stat{
+  position:relative;
+  padding:18px 12px;
+  background:#fff;
+  border-radius:4px;
+  text-align:center;
+  border:2.5px solid var(--ink);
+  box-shadow:4px 5px 0 rgba(46,42,31,.85);
+  transition:transform .25s var(--ease-out);
+}
+.hero__stat::before{
+  /* タック画鋲 */
+  content:''; position:absolute;
+  top:-8px; left:50%; transform:translateX(-50%);
+  width:14px; height:14px; border-radius:50%;
+  background:radial-gradient(circle at 35% 35%, #fff 0%, var(--accent-red) 60%, #8B1820 100%);
+  box-shadow:0 4px 6px rgba(0,0,0,.3), inset -2px -2px 4px rgba(0,0,0,.25);
+}
+.hero__stat:nth-child(2){
+  background:var(--hilite-pink);
+  transform:rotate(-2deg);
+}
+.hero__stat:nth-child(2):hover{ transform:rotate(-2deg) translate(-2px,-2px) }
+.hero__stat:nth-child(2)::before{
+  background:radial-gradient(circle at 35% 35%, #fff 0%, var(--accent-blue) 60%, #1F4F8E 100%);
+}
+.hero__stat:nth-child(3){
+  background:var(--hilite-blue);
+  transform:rotate(1deg);
+}
+.hero__stat:nth-child(3):hover{ transform:rotate(1deg) translate(-2px,-2px) }
+.hero__stat:nth-child(3)::before{
+  background:radial-gradient(circle at 35% 35%, #fff 0%, var(--accent-green) 60%, #1A5C3A 100%);
+}
+.hero__stat:hover{ transform:translate(-2px,-2px) }
+.hero__stat-num{
+  font-family:var(--font-num);
+  font-size:clamp(1.6rem,2.5vw,2.2rem);
+  color:var(--ink);
+  line-height:1;
+}
+.hero__stat-num small{ font-size:.5em; margin-left:2px }
+.hero__stat-label{
+  font-family:var(--font-script); font-weight:700;
+  font-size:.95rem; color:var(--ink); margin-top:6px;
+  line-height:1.3;
+}
+
+/* ---- 右ビジュアル: コラージュ ---- */
+.hero__visual{
+  position:relative;
+  aspect-ratio:1/1.05;
+  max-width:640px;
+  margin-inline:auto;
+  width:100%;
+}
+
+/* 写真共通 */
+.snap{
+  position:absolute;
+  background:#fff;
+  padding:10px 10px 28px;
+  box-shadow:0 14px 22px -10px rgba(0,0,0,.3);
+  transition:transform .25s var(--ease-out);
+  z-index:3;
+}
+.snap img{ width:100%; aspect-ratio:1/1; object-fit:cover; display:block }
+.snap-cap{
+  font-family:var(--font-script);
+  font-size:.88rem;
+  text-align:center;
+  margin-top:6px;
+  color:var(--ink);
+}
+/* マスキングテープ */
+.snap-tape{
+  position:absolute;
+  top:-12px; left:50%;
+  width:60px; height:18px;
+  transform:translateX(-50%) rotate(-3deg);
+  z-index:5;
+  opacity:.92;
+  background-image:repeating-linear-gradient(45deg, rgba(255,255,255,.2) 0 4px, transparent 4px 8px);
+  background-color:var(--tape-1);
+}
+
+.snap:hover{ transform:scale(1.06) rotate(0deg)!important; z-index:9 }
+
+/* 各写真位置 (paper coverage) */
+.snap--1{ top:0; left:8%; width:42%; transform:rotate(-6deg); }
+.snap--1 .snap-tape{ background-color:var(--tape-2) }
+.snap--2{ top:8%; right:0; width:38%; transform:rotate(5deg) }
+.snap--2 .snap-tape{ background-color:var(--tape-3) }
+.snap--3{ top:42%; left:-2%; width:36%; transform:rotate(4deg) }
+.snap--3 .snap-tape{ background-color:var(--tape-4) }
+.snap--4{ top:44%; left:38%; width:36%; transform:rotate(-3deg) }
+.snap--4 .snap-tape{ background-color:var(--tape-1) }
+.snap--5{ bottom:0; right:6%; width:42%; transform:rotate(6deg) }
+.snap--5 .snap-tape{ background-color:var(--tape-5) }
+.snap--6{ bottom:6%; left:12%; width:30%; transform:rotate(-5deg) }
+.snap--6 .snap-tape{ background-color:var(--tape-2) }
+
+/* バッジ */
+.hero__badge{
+  position:absolute;
+  top:0%; right:-6%;
+  z-index:6;
+  width:clamp(110px, 13vw, 140px);
+  aspect-ratio:1/1;
+  background:radial-gradient(circle at 30% 30%, #fff 0%, var(--accent-orange) 70%);
+  color:#fff;
+  border-radius:50%;
+  border:3px solid var(--ink);
+  display:flex; align-items:center; justify-content:center;
+  font-family:var(--font-jp-d); font-weight:700;
+  text-align:center; line-height:1.25;
+  font-size:clamp(.85rem, 1.15vw, 1rem);
+  box-shadow:5px 5px 0 var(--ink);
+  transform:rotate(8deg);
+  animation:badgeShake 3s ease-in-out infinite;
+}
+@keyframes badgeShake{
+  0%,100%{ transform:rotate(8deg) translateY(0) }
+  50%{ transform:rotate(4deg) translateY(-6px) }
+}
+
+/* スクロール */
+.hero__scroll{
+  position:absolute; bottom:20px; left:50%;
+  transform:translateX(-50%);
+  z-index:6;
+  display:flex; flex-direction:column; align-items:center; gap:8px;
+  font-family:var(--font-script); font-size:1.05rem;
+  color:var(--ink);
+  font-weight:700;
+}
+.hero__scroll::after{
+  content:''; width:2px; height:42px;
+  background:var(--ink);
+  animation:scrollLine 2s ease-in-out infinite;
+}
+@keyframes scrollLine{
+  0%{ transform:scaleY(0); transform-origin:top }
+  50%{ transform:scaleY(1); transform-origin:top }
+  50.01%{ transform-origin:bottom }
+  100%{ transform:scaleY(0); transform-origin:bottom }
+}
+
+@media (max-width:979px){
+  .hero{ padding-bottom:140px }
+  .hero__scroll{ display:none }
+  .hero__visual{ max-width:480px }
+}
+
+/* placeholder */
+.ph{
+  padding:96px 0; text-align:center;
+  background:var(--paper-2);
+  border-top:2px dashed rgba(46,42,31,.2);
+}
+.ph:nth-of-type(even){ background:var(--paper) }
+.ph h2{ font-family:var(--font-jp-d); font-weight:600; font-size:clamp(1.4rem,2.8vw,2.1rem); color:rgba(46,42,31,.5) }
+.ph p{ margin-top:8px; color:rgba(46,42,31,.5); font-size:.9rem }
+
+.foot{
+  background:var(--ink); color:rgba(255,253,246,.75);
+  padding:56px 0; text-align:center; font-size:.85rem;
+}
+
+/* init */
+.js-title-line .hero__title-inner{ transform:translateY(110%) }
+.js-fade{ opacity:0; transform:translateY(20px) }
