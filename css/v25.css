@@ -254,7 +254,7 @@ body{
   overflow:hidden;
   background:var(--ink);
 }
-.center-card__img img{ width:100%; height:100%; object-fit:cover }
+.center-card__img img{ width:100%; height:100%; object-fit:cover; transform:scale(1.2); transform-origin:center center; filter:brightness(1.45) }
 .center-card__img-label{
   position:absolute; top:14px; left:14px;
   font-family:var(--font-en); font-size:.7rem;
@@ -612,7 +612,7 @@ body{
   gap:18px;
 }
 @media (min-width:680px){ .stats-grid{ grid-template-columns:repeat(2, 1fr) } }
-@media (min-width:980px){ .stats-grid{ grid-template-columns:repeat(4, 1fr) } }
+@media (min-width:980px){ .stats-grid{ grid-template-columns:repeat(3, 1fr); max-width:900px; margin-inline:auto } }
 
 .stat-card{
   position:relative;
@@ -1109,7 +1109,68 @@ body{
   color:var(--ink);
   cursor:pointer;
   box-shadow:4px 4px 0 var(--ink);
+  z-index:2;
 }
+.gallery-modal-prev,
+.gallery-modal-next{
+  position:absolute; top:50%; transform:translateY(-50%);
+  width:52px; height:52px;
+  border-radius:50%;
+  background:linear-gradient(135deg,var(--accent),var(--accent-2));
+  border:3px solid #fff;
+  font-size:1.8rem; line-height:1;
+  color:#fff; cursor:pointer;
+  box-shadow:4px 4px 0 rgba(0,0,0,.3);
+  display:flex; align-items:center; justify-content:center;
+  transition:transform .2s, box-shadow .2s;
+  z-index:2;
+}
+.gallery-modal-prev{ left:16px }
+.gallery-modal-next{ right:16px }
+.gallery-modal-prev:hover{ transform:translateY(-50%) translate(-2px,-2px); box-shadow:6px 6px 0 rgba(0,0,0,.3) }
+.gallery-modal-next:hover{ transform:translateY(-50%) translate(-2px,-2px); box-shadow:6px 6px 0 rgba(0,0,0,.3) }
+.gallery-modal-counter{
+  position:absolute; bottom:20px; left:50%; transform:translateX(-50%);
+  background:rgba(255,255,255,.2);
+  color:#fff; font-family:var(--font-num); font-size:1rem; font-weight:700;
+  padding:4px 14px; border-radius:999px;
+  letter-spacing:.05em;
+}
+
+/* ============================================================
+   写真装飾 — .pd スタイル（大きくポップに）
+   ============================================================ */
+.feature-img,
+.step-img{ position:relative; overflow:visible }
+
+/* 汎用デコスパン */
+.pd{
+  position:absolute; z-index:10; pointer-events:none;
+  font-size:2.8rem; line-height:1;
+  filter:drop-shadow(0 3px 0 #fff) drop-shadow(0 -3px 0 #fff) drop-shadow(3px 0 0 #fff) drop-shadow(-3px 0 0 #fff);
+  animation:floatBob 3s ease-in-out infinite;
+}
+.pd--tl{ top:10px; left:10px; animation-duration:3.2s; transform:rotate(-15deg) }
+.pd--tr{ top:10px; right:10px; animation-duration:2.8s; animation-delay:-.5s; transform:rotate(15deg) }
+.pd--bl{ bottom:10px; left:10px; animation-duration:3.5s; animation-delay:-1s; transform:rotate(10deg) }
+.pd--br{ bottom:10px; right:10px; animation-duration:2.6s; animation-delay:-.3s; transform:rotate(-10deg) }
+.pd--tm{ top:10px; left:50%; transform:translateX(-50%) rotate(5deg); animation-duration:4s; animation-delay:-.8s }
+.pd--bm{ bottom:10px; left:50%; transform:translateX(-50%) rotate(-5deg); animation-duration:3.8s; animation-delay:-1.5s }
+
+/* イベントカード */
+.event-card{ position:relative }
+.event-card::after{
+  content:'✦'; position:absolute; top:10px; right:12px;
+  font-size:1.6rem; color:#fff; z-index:5;
+  pointer-events:none;
+  filter:drop-shadow(0 0 4px var(--accent));
+  animation:sparkleTwinkle 2.5s ease-in-out infinite;
+}
+
+/* フィロソフィーカード */
+.philosophy-card-img{ position:relative; overflow:visible }
+/* ギャラリー */
+.gallery-item{ position:relative; overflow:hidden }
 
 /* ==============================================================
    #steps - 体験までの3ステップ
@@ -1867,7 +1928,7 @@ body{
 
 /* トップに戻るボタン */
 .to-top{
-  position:fixed; bottom:90px; right:20px;
+  position:fixed; bottom:145px; right:20px;
   z-index:55;
   width:48px; height:48px;
   border-radius:50%;

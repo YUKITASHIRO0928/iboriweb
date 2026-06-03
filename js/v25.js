@@ -167,9 +167,16 @@
   const modal = $('#gallery-modal');
   if (modal) {
     const modalImg = modal.querySelector('img');
-    const openModal = (src, alt) => {
-      modalImg.src = src;
-      modalImg.alt = alt || '';
+    const counter = $('#gallery-modal-counter');
+    const items = Array.from($$('.gallery-item'));
+    let currentIdx = 0;
+
+    const openModal = (idx) => {
+      currentIdx = idx;
+      const b = items[idx];
+      modalImg.src = b.dataset.src;
+      modalImg.alt = b.dataset.alt || '';
+      if (counter) counter.textContent = `${idx + 1} / ${items.length}`;
       modal.classList.add('is-open');
       lenis?.stop();
     };
@@ -177,17 +184,30 @@
       modal.classList.remove('is-open');
       lenis?.start();
     };
-    $$('.gallery-item').forEach((b) => {
-      b.addEventListener('click', () => {
-        openModal(b.dataset.src, b.dataset.alt);
-      });
-    });
+    const showPrev = () => openModal((currentIdx - 1 + items.length) % items.length);
+    const showNext = () => openModal((currentIdx + 1) % items.length);
+
+    items.forEach((b, i) => b.addEventListener('click', () => openModal(i)));
+
     modal.querySelector('.gallery-modal-close')?.addEventListener('click', closeModal);
-    modal.addEventListener('click', (e) => {
-      if (e.target === modal) closeModal();
-    });
+    modal.querySelector('.gallery-modal-prev')?.addEventListener('click', (e) => { e.stopPropagation(); showPrev(); });
+    modal.querySelector('.gallery-modal-next')?.addEventListener('click', (e) => { e.stopPropagation(); showNext(); });
+
+    modal.addEventListener('click', (e) => { if (e.target === modal) closeModal(); });
+
     document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape' && modal.classList.contains('is-open')) closeModal();
+      if (!modal.classList.contains('is-open')) return;
+      if (e.key === 'Escape') closeModal();
+      if (e.key === 'ArrowLeft') showPrev();
+      if (e.key === 'ArrowRight') showNext();
+    });
+
+    // スワイプ対応
+    let touchStartX = 0;
+    modal.addEventListener('touchstart', (e) => { touchStartX = e.touches[0].clientX; }, { passive: true });
+    modal.addEventListener('touchend', (e) => {
+      const diff = touchStartX - e.changedTouches[0].clientX;
+      if (Math.abs(diff) > 50) diff > 0 ? showNext() : showPrev();
     });
   }
 
