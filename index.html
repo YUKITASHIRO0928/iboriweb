@@ -12,7 +12,7 @@
 <meta property="og:url" content="https://www.ibori-badminton.com/">
 <meta property="og:title" content="井堀バドミントンクラブ｜北九州・小倉北の小学生バドミントン">
 <meta property="og:description" content="九州大会9名・全国大会4名出場。家族のように温かいバドミントンクラブ。無料体験受付中。">
-<meta property="og:image" content="https://www.ibori-badminton.com/assets/og-image.jpg?v=2">
+<meta property="og:image" content="https://www.ibori-badminton.com/assets/og-image.jpg?v=3">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta property="og:site_name" content="井堀バドミントンクラブ">
@@ -28,7 +28,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Caveat:wght@500;700&family=Fredoka:wght@500;600;700&family=Inter:wght@500;700&family=JetBrains+Mono:wght@500;700&family=Noto+Sans+JP:wght@500;700&family=Zen+Kaku+Gothic+New:wght@700;900&family=Zen+Maru+Gothic:wght@500;700;900&display=swap" rel="stylesheet">
 <link rel="preload" as="image" href="assets/photos-all/963350_0-lg.webp" fetchpriority="high">
-<link rel="stylesheet" href="css/v25.css?v=19">
+<link rel="stylesheet" href="css/v25.css?v=20">
 
 <!-- JSON-LD -->
 <script type="application/ld+json">
@@ -89,6 +89,7 @@
       <span>井堀バドミントンクラブ</span>
     </a>
     <nav class="nav__links" aria-label="メインナビゲーション">
+      <a href="#news">お知らせ</a>
       <a href="#philosophy">クラブ紹介</a>
       <a href="#schedule">練習</a>
       <a href="#gallery">スナップ</a>
@@ -218,8 +219,29 @@
 </section>
 
 <!-- ============================================
-     PHOTO STRIP — セクション間の写真ストリップ
+     #news — お知らせ・新着情報（microCMS連携）
 ============================================ -->
+<section class="section s-news" id="news">
+  <span class="sparkle deco-icon" style="top:10%;right:10%;font-size:2rem;color:var(--accent)" aria-hidden="true">✦</span>
+  <span class="deco-icon deco-float" style="bottom:14%;left:8%;font-size:1.6rem;color:var(--accent-2)" aria-hidden="true">★</span>
+
+  <div class="section__inner">
+    <div class="section__head js-fade-in">
+      <span class="section__eyebrow">★ News ★</span>
+      <h2 class="section__title">
+        <span class="section__title-em">お知らせ</span>・新着情報
+      </h2>
+      <p class="section__lead">
+        体験会の告知、大会結果、クラブからのお知らせをお届けします。
+      </p>
+    </div>
+
+    <!-- JSがここに記事を流し込みます -->
+    <div class="news-list" id="news-list" aria-live="polite">
+      <p class="news-empty" id="news-empty">読み込み中…</p>
+    </div>
+  </div>
+</section>
 
 <!-- ============================================
      #stats — 数字で見る井堀バドミントンクラブ
@@ -965,6 +987,7 @@
     <div>
       <h4 class="foot-h">サイトマップ</h4>
       <div class="foot-links">
+        <a href="#news">お知らせ</a>
         <a href="#stats">数字で見る</a>
         <a href="#features">3つの理由</a>
         <a href="#philosophy">クラブ理念</a>
@@ -1004,6 +1027,7 @@
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
 <script src="https://cdn.jsdelivr.net/gh/studio-freight/lenis@1.0.42/bundled/lenis.min.js"></script>
 <script src="js/v25.js?v=2"></script>
+<script src="js/news.js?v=1"></script>
 <script defer src="/_vercel/insights/script.js"></script>
 </body>
 </html>
