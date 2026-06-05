@@ -7,8 +7,8 @@
    ENDPOINT       : APIのエンドポイント名（例: news）
    ============================================================ */
 const CONFIG = {
-  SERVICE_DOMAIN: 'YOUR_SERVICE',   // ← ここを書き換える
-  API_KEY:        'YOUR_API_KEY',   // ← ここを書き換える
+  SERVICE_DOMAIN: 'iboribad',                                  // microCMS サービスID
+  API_KEY:        'uYKwF3ZhlurT8pmFvMTWU948ZZzQ7At9v8VE',      // 読み取り専用 API-KEY
   ENDPOINT:       'news',
   LIMIT:          6,                // 表示する最大件数
 };
