@@ -10,7 +10,7 @@ const CONFIG = {
   SERVICE_DOMAIN: 'iboribad',                                  // microCMS サービスID
   API_KEY:        'uYKwF3ZhlurT8pmFvMTWU948ZZzQ7At9v8VE',      // 読み取り専用 API-KEY
   ENDPOINT:       'news',
-  LIMIT:          6,                // 表示する最大件数
+  LIMIT:          8,                // 表示する最大件数
 };
 
 (() => {
@@ -40,7 +40,6 @@ const CONFIG = {
   };
 
   const pickCategory = (item) => {
-    // セレクト/テキストどちらでも拾えるように
     const c = item.category;
     if (!c) return '';
     if (Array.isArray(c)) return c[0] || '';
@@ -50,27 +49,88 @@ const CONFIG = {
   const escapeHtml = (s) => String(s)
     .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
 
-  const render = (items) => {
+  // 本文HTMLからプレーンテキスト抜粋を作る（一覧用）
+  const excerpt = (html, len = 70) => {
+    const tmp = document.createElement('div');
+    tmp.innerHTML = html || '';
+    const text = (tmp.textContent || '').replace(/\s+/g, ' ').trim();
+    return text.length > len ? text.slice(0, len) + '…' : text;
+  };
+
+  let items = [];
+
+  /* ---------- モーダル制御 ---------- */
+  const modal     = document.getElementById('news-modal');
+  const mDate     = document.getElementById('news-modal-date');
+  const mCat      = document.getElementById('news-modal-cat');
+  const mTitle    = document.getElementById('news-modal-title');
+  const mBody     = document.getElementById('news-modal-body');
+  let lastFocused = null;
+
+  const openModal = (idx) => {
+    const item = items[idx];
+    if (!item || !modal) return;
+    lastFocused = document.activeElement;
+    const cat = pickCategory(item);
+    mDate.textContent = fmtDate(item.publishedAt || item.createdAt);
+    if (cat) {
+      mCat.textContent = cat;
+      mCat.className = 'news-modal__cat ' + (CATEGORY_STYLE[cat] || 'is-info');
+      mCat.style.display = '';
+    } else {
+      mCat.style.display = 'none';
+    }
+    mTitle.textContent = item.title || '（無題）';
+    mBody.innerHTML = item.body || '';
+    modal.classList.add('is-open');
+    document.body.style.overflow = 'hidden';
+    const closeBtn = modal.querySelector('.news-modal__close');
+    if (closeBtn) closeBtn.focus();
+  };
+
+  const closeModal = () => {
+    if (!modal) return;
+    modal.classList.remove('is-open');
+    document.body.style.overflow = '';
+    if (lastFocused && lastFocused.focus) lastFocused.focus();
+  };
+
+  if (modal) {
+    modal.querySelectorAll('[data-news-close]').forEach((el) => {
+      el.addEventListener('click', closeModal);
+    });
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && modal.classList.contains('is-open')) closeModal();
+    });
+  }
+
+  /* ---------- 一覧描画 ---------- */
+  const render = () => {
     if (!items.length) {
       if (emptyEl) emptyEl.textContent = '現在お知らせはありません。';
       return;
     }
-    listEl.innerHTML = items.map((item) => {
-      const cat   = pickCategory(item);
+    listEl.innerHTML = items.map((item, i) => {
+      const cat    = pickCategory(item);
       const catCls = CATEGORY_STYLE[cat] || 'is-info';
-      const date  = fmtDate(item.publishedAt || item.createdAt || item.date);
-      const title = escapeHtml(item.title || '（無題）');
-      const body  = item.body || '';   // microCMSリッチエディタはHTML
+      const date   = fmtDate(item.publishedAt || item.createdAt);
+      const title  = escapeHtml(item.title || '（無題）');
+      const ex     = escapeHtml(excerpt(item.body));
       return `
-        <article class="news-card">
+        <button class="news-card" type="button" data-idx="${i}">
           <div class="news-card__meta">
             <time class="news-card__date">${date}</time>
             ${cat ? `<span class="news-card__cat ${catCls}">${escapeHtml(cat)}</span>` : ''}
           </div>
           <h3 class="news-card__title">${title}</h3>
-          ${body ? `<div class="news-card__body">${body}</div>` : ''}
-        </article>`;
+          ${ex ? `<p class="news-card__excerpt">${ex}</p>` : ''}
+          <span class="news-card__more">詳しく見る →</span>
+        </button>`;
     }).join('');
+
+    listEl.querySelectorAll('.news-card').forEach((btn) => {
+      btn.addEventListener('click', () => openModal(parseInt(btn.dataset.idx, 10)));
+    });
   };
 
   const url = `https://${CONFIG.SERVICE_DOMAIN}.microcms.io/api/v1/${CONFIG.ENDPOINT}?limit=${CONFIG.LIMIT}&orders=-publishedAt`;
@@ -80,7 +140,7 @@ const CONFIG = {
       if (!res.ok) throw new Error(`HTTP ${res.status}`);
       return res.json();
     })
-    .then((data) => render(data.contents || []))
+    .then((data) => { items = data.contents || []; render(); })
     .catch((err) => {
       console.error('[news] 取得エラー:', err);
       if (emptyEl) emptyEl.textContent = 'お知らせの読み込みに失敗しました。';

@@ -28,7 +28,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Caveat:wght@500;700&family=Fredoka:wght@500;600;700&family=Inter:wght@500;700&family=JetBrains+Mono:wght@500;700&family=Noto+Sans+JP:wght@500;700&family=Zen+Kaku+Gothic+New:wght@700;900&family=Zen+Maru+Gothic:wght@500;700;900&display=swap" rel="stylesheet">
 <link rel="preload" as="image" href="assets/photos-all/963350_0-lg.webp" fetchpriority="high">
-<link rel="stylesheet" href="css/v25.css?v=20">
+<link rel="stylesheet" href="css/v25.css?v=21">
 
 <!-- JSON-LD -->
 <script type="application/ld+json">
@@ -242,6 +242,20 @@
     </div>
   </div>
 </section>
+
+<!-- お知らせモーダル -->
+<div class="news-modal" id="news-modal" role="dialog" aria-modal="true" aria-label="お知らせ詳細">
+  <div class="news-modal__overlay" data-news-close></div>
+  <div class="news-modal__panel" role="document">
+    <button class="news-modal__close" aria-label="閉じる" data-news-close>✕</button>
+    <div class="news-modal__meta">
+      <time class="news-modal__date" id="news-modal-date"></time>
+      <span class="news-modal__cat" id="news-modal-cat"></span>
+    </div>
+    <h3 class="news-modal__title" id="news-modal-title"></h3>
+    <div class="news-modal__body" id="news-modal-body"></div>
+  </div>
+</div>
 
 <!-- ============================================
      #stats — 数字で見る井堀バドミントンクラブ
@@ -1027,7 +1041,7 @@
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
 <script src="https://cdn.jsdelivr.net/gh/studio-freight/lenis@1.0.42/bundled/lenis.min.js"></script>
 <script src="js/v25.js?v=2"></script>
-<script src="js/news.js?v=2"></script>
+<script src="js/news.js?v=3"></script>
 <script defer src="/_vercel/insights/script.js"></script>
 </body>
 </html>
